@@ -1,18 +1,24 @@
-import org.jetbrains.sbtidea.Keys._
+import org.jetbrains.sbtidea.Keys.*
 
-lazy val myAwesomePlugin =
+
+lazy val dependencies = Seq(
+  "com.theokanning.openai-gpt3-java" % "service" % "0.18.2",
+)
+
+// https://github.com/JetBrains/sbt-idea-plugin
+lazy val askGptPlugin =
   project.in(file("."))
     .enablePlugins(SbtIdeaPlugin)
     .settings(
-      version := "0.0.1-SNAPSHOT",
+      version := "0.0.3-SNAPSHOT",
       scalaVersion := "2.13.13",
-      ThisBuild / intellijPluginName := "Oh-My-GPT",
-      ThisBuild / intellijBuild      := "233.14475.28",
-      ThisBuild / intellijPlatform   := IntelliJPlatform.IdeaCommunity,
-      Global    / intellijAttachSources := true,
+      ThisBuild / intellijPluginName := "Ask-GPT",
+      //ThisBuild / intellijBuild := "233.14475.28",
+      ThisBuild / intellijPlatform := IntelliJPlatform.IdeaCommunity,
+      Global / intellijAttachSources := true,
       Compile / javacOptions ++= "--release" :: "17" :: Nil,
       intellijPlugins += "com.intellij.properties".toPlugin,
-      libraryDependencies += "com.eclipsesource.minimal-json" % "minimal-json" % "0.9.5" withSources(),
+      libraryDependencies ++= dependencies,
       Compile / unmanagedResourceDirectories += baseDirectory.value / "resources",
-      Test / unmanagedResourceDirectories    += baseDirectory.value / "testResources"
+      Test / unmanagedResourceDirectories += baseDirectory.value / "testResources"
     )

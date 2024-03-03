@@ -2,16 +2,17 @@
 
 package org.jetbrains.scala.samples.services
 
-import com.intellij.openapi.application.{ApplicationInfo, ApplicationManager}
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.Service
-import org.jetbrains.scala.samples.SamplePluginBundle
+import org.jetbrains.scala.samples.openai.OpenAIClient
+import org.jetbrains.scala.samples.settings.AskGptSettings
 
 @Service
 final class ApplicationHelloService {
-  def getApplicationHelloInfo: String =
-    SamplePluginBundle.message("hello.this.is.asstring", ApplicationInfo.getInstance().getBuild.asString())
+  val openAiClient = new OpenAIClient(AskGptSettings.getInstance.getState.apiKey)
 }
 
 object ApplicationHelloService {
-  def getInstance: ApplicationHelloService = ApplicationManager.getApplication().getService(classOf[ApplicationHelloService])
+  def instance: ApplicationHelloService =
+    ApplicationManager.getApplication.getService(classOf[ApplicationHelloService])
 }

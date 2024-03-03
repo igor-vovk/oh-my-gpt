@@ -1,7 +1,7 @@
 <idea-plugin>
-    <id>me.and.co.my.awesome.framework</id>
-    <name>My Awesome Framework</name>
-    <version>0.0.1-SNAPSHOT</version>
+    <id>com.ihorvovk.askgpt</id>
+    <name>Ask ChatGPT!</name>
+    <version>0.0.3-SNAPSHOT</version>
     <vendor>Me and Co</vendor>
 
     <description>A new plugin for IntelliJ platform written in Scala and built with SBT</description>
@@ -14,20 +14,20 @@
     <resource-bundle>messages.SamplePluginBundle</resource-bundle>
 
     <actions>
-        <action id="org.jetbrains.scala.samples.actions.PopupDialogAction"
-                class="org.jetbrains.scala.samples.actions.PopupDialogAction">
+        <action id="org.jetbrains.scala.samples.actions.AskDialogAction"
+                class="org.jetbrains.scala.samples.actions.AskDialogAction"
+                title="Ask GPT!"
+                description="Executes command to ChatGPT">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
         </action>
     </actions>
 
-    <applicationListeners>
-        <listener class="org.jetbrains.scala.samples.listeners.FileOpenedListener" topic="com.intellij.openapi.fileEditor.FileEditorManagerListener"/>
-    </applicationListeners>
-
     <extensions defaultExtensionNs="com.intellij">
-        <notificationGroup displayType="BALLOON" id="My Plugin Notification" />
-        <toolWindow factoryClass="org.jetbrains.scala.samples.ui.MyToolWindowFactory" id="MyToolWindow" anchor="bottom"/>
-        <completion.contributor implementationClass="org.jetbrains.scala.samples.completion.SimpleCompletionContributor" language="Properties"/>
+        <applicationConfigurable parentId="tools"
+                                 instance="org.jetbrains.scala.samples.settings.AskGptSettingsConfigurable"
+                                 id="org.jetbrains.scala.samples.settings.AskGptSettingsConfigurable"
+                                 displayName="Ask ChatGPT"/>
+        <applicationService serviceImplementation="org.jetbrains.scala.samples.settings.AskGptSettings"/>
     </extensions>
 
 </idea-plugin>
